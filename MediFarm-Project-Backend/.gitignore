@@ -1,0 +1,31 @@
+# Dependencies
+node_modules
+
+# Environment files
+.env
+.env.local
+
+# Build files and directories
+/build
+/dist
+/public/build
+/coverage
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+pids
+logs
+
+# IDE/Editor-specific files
+.vscode/
+.idea/
+.DS_Store
+*.sublime-workspace
+*.cache
+
+# NPM files
+package-lock.json
+npm-shrinkwrap.json
+yarn.lock
