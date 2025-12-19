@@ -15,7 +15,7 @@ router.post("/logout", sessionAuth, (req, res) => {
       return res.status(500).json({error: "Logout failed"});
 
     }
-    res.clearCookie(process.env.SESSION_NAME || "connect.sid");
+    res.clearCookie(process.env.SESSION_NAME || "medifarm_session");
     res.json({ messege: "Logged out"});
   });
 });

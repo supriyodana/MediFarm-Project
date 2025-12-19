@@ -4,6 +4,7 @@ const cors = require("cors");
 const adminRoutes = require("./routes/adminRoutes");
 const authRoute = require("./routes/authRoute");
 const userRoutes = require("./routes/userRoutes");
+const publicRoutes = require("./routes/publicRoutes");
 
 const app = express();
 
@@ -24,6 +25,7 @@ require("./config/session")(app);
 app.use("/api", authRoute);
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/public", publicRoutes);
 
 //here to add later ...
 //user , medicine etc routes
