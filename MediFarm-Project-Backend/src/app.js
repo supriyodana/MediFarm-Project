@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 
 const adminRoutes = require("./routes/adminRoutes");
-const authRoute =require("./routes/authRoute");
+const authRoute = require("./routes/authRoute");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -22,6 +23,7 @@ require("./config/session")(app);
 
 app.use("/api", authRoute);
 app.use("/api/admin", adminRoutes);
+app.use("/api/user", userRoutes);
 
 //here to add later ...
 //user , medicine etc routes
