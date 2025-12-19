@@ -1,9 +1,11 @@
 
-### user registration and login
+### user registration
 
 POST http://localhost:5000/api/user/register 
 
-example request body... JSON
+example 
+Header : Content-Type: application/json
+request body... JSON
 {
   "name": "User Name",
   "email": "user@example.com",
@@ -24,7 +26,8 @@ Errors: 400 if email already registered; 500 on server error.
 
 POST http://localhost:5000/api/user/login
 
-JSON example(request body)
+Header : Content-Type: application/json
+request body... JSON
 {
   "email": "user@example.com",
   "password": "yourPassword123"
