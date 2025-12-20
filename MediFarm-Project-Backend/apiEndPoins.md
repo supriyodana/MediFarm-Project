@@ -3,64 +3,97 @@
 ### user registration
 
 POST http://localhost:5000/api/user/register 
+ 
+Header: Content-Type: application/json
 
-example 
-Header : Content-Type: application/json
 request body... JSON
 {
   "name": "User Name",
   "email": "user@example.com",
-  "password": "yourPassword123"
+  "password": "Password123"
 }
 
 Response....
 Success (200): JSON body and session cookie set
 {
   "message": "Registration successful",
-  "user": { "email": "user@example.com", "name": "User Name", "role": "user" }
+  "user": { "email": "user@example.com", 
+          "name": "User Name", 
+          "role": "user" 
+          }
 }
 
-Errors: 400 if email already registered; 500 on server error.
+Errors: 
+(if email already registered)
+400 - Email already registered
+
+(on server error)
+500 - Server error
 
 
 ### user login
 
 POST http://localhost:5000/api/user/login
 
-Header : Content-Type: application/json
+Header: Content-Type: application/json
+
 request body... JSON
 {
   "email": "user@example.com",
-  "password": "yourPassword123"
+  "password": "Password123"
 }
 
 Responce: 
 Success (200): JSON body and session cookie set.
 {
   "message": "Login successful",
-  "user": { "email": "user@example.com", "name": "User Name", "role": "user" }
+  "user": { "email": "user@example.com", 
+          "name": "User Name", 
+          "role": "user" 
+          }
 }
 
-Errors: 401 for invalid email/password; 500 on server error.
+Errors:
+ 401 for invalid email/password
+ 500 on server error.
 
 
 ### admin login
 URL: http://localhost:5000/api/admin/login
 Method: POST
+
 Headers:  Content-Type: application/json
-Body (raw → JSON):  {"username":"admin","password":"admin123"}
 
-Send the request. Successful response (200):
-{"message":"Login successful","user":{"username":"admin","role":"admin"}}
-On failure you may get 401 with {"error":"Invalid username"} or {"error":"Invalid password"} or 500 for server errors.
+Request Body: json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+Response (Success - 200):
+
+{
+  "message": "Login successful",
+  "user": {
+    "username": "admin",
+    "role": "admin"
+  }
+}
+
+Errors:
+
+401 - Invalid username/password
+500 - Server error
 
 
-### get current logged in user 
+### get current logged in user(User or Admin)
 
 http://localhost:5000/api/me
 Method :GET  
 
-header : Cookie: medifarm_session=<session_id>
+header: 
+Cookie: medifarm_session=<session_id>
 
 Response – Success (200)
 
@@ -72,7 +105,17 @@ Response – Success (200)
   }
 }
 
-Errors : 401 Unauthorized → No active session
+OR for Admin:
+
+{
+  "user": {
+    "username": "admin",
+    "role": "admin"
+  }
+}
+
+Errors: 
+401 Unauthorized - No active session
 
 
 ### Logout (User or Admin)
@@ -88,11 +131,9 @@ Response – Success (200)
   "messege": "Logged out"
 }
 
-Errors
-
-401 Unauthorized
-
-500 Logout failed
+Errors:
+401 - Unauthorized
+500 - Logout failed
 
 ## session check - for testing 
 
@@ -151,7 +192,8 @@ Response – Success (200)
       "stock": 100,
       "category": "Medicine",
       "image": "image-url",
-      "createdAt": "2025-01-01T10:00:00.000Z"
+      "createdAt": "2025-01-01T10:00:00.000Z",
+      "updatedAt": "2025-01-01T10:00:00.000Z"
     }
   ]
 }
@@ -163,6 +205,8 @@ Errors:  500 Server error
 GET
 http://localhost:5000/api/public/products/:med_id
 
+Example: http://localhost:5000/api/public/products/MEDabc123
+
 Response – Success (200)
 
 {
@@ -170,7 +214,11 @@ Response – Success (200)
     "med_id": "MEDabc123",
     "name": "Paracetamol",
     "price": 20,
-    "stock": 100
+    "stock": 100,
+    "category": "Medicine",
+    "image": "image-url",
+    "createdAt": "2025-01-01T10:00:00.000Z",
+    "updatedAt": "2025-01-01T10:00:00.000Z"
   }
 }
 
@@ -211,13 +259,20 @@ Success (201)
   "message": "Product created",
   "data": {
     "med_id": "MEDxyz456",
-    "name": "Aspirin"
+    "name": "Aspirin",
+    "description": "Pain relief",
+    "price": 50,
+    "stock": 200,
+    "category": "Medicine",
+    "image": "image-url",
+    "createdAt": "2025-01-01T10:00:00.000Z",
+    "updatedAt": "2025-01-01T10:00:00.000Z"
   }
 }
 
 Errors : 
 
-400 med_id already present/registered
+400 med_id already exists
 
 401 Unauthorized
 
@@ -231,11 +286,16 @@ Errors :
 PUT
 http://localhost:5000/api/admin/products/:med_id
 
+Headers:
+Content-Type: application/json
+Cookie: medifarm_session=<session_id>
+
 Request Body
 
 {
   "price": 60,
-  "stock": 150
+  "stock": 150,
+  "name": "Aspirin Extra"
 }
 
 Response – 
@@ -246,8 +306,14 @@ Success (200)
   "message": "Product updated",
   "data": {
     "med_id": "MEDxyz456",
+    "name": "Aspirin Extra",
+    "description": "Pain relief",
     "price": 60,
-    "stock": 150
+    "stock": 150,
+    "category": "Medicine",
+    "image": "image-url",
+    "createdAt": "2025-01-01T10:00:00.000Z",
+    "updatedAt": "2025-01-02T10:00:00.000Z"
   }
 }
 
@@ -263,6 +329,10 @@ Errors :
 
 DELETE 
 http://localhost:5000/api/admin/products/:med_id
+
+Example: http://localhost:5000/api/admin/products/MEDxyz456
+
+Headers: Cookie: medifarm_session=<session_id>
 
 Response – 
 
@@ -280,3 +350,4 @@ Errors :
 
 403 Admins only
 
+500 - Server error

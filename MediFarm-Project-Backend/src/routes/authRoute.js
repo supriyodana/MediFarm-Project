@@ -16,7 +16,7 @@ router.post("/logout", sessionAuth, (req, res) => {
 
     }
     res.clearCookie(process.env.SESSION_NAME || "medifarm_session");
-    res.json({ messege: "Logged out"});
+    res.json({ message: "Logged out"});
   });
 });
 

@@ -11,13 +11,13 @@ const { isAdmin } = require("../middleware/roleMiddleware");
 
 router.post("/login", loginAdmin);
 
-/*
+//for testing purpose
 router.get("/me", sessionAuth, (req, res) => {
   res.json({ user: req.user });
   console.log("This one --> " , req.user);
 });
 
-*/
+
 
 
 /// here to add routes like ---
