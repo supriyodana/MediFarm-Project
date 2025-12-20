@@ -351,3 +351,37 @@ Errors :
 403 Admins only
 
 500 - Server error
+
+## Admin Order Management:
+
+GET /api/admin/orders - Get all orders (query: ?status=, ?page=, ?limit=)
+
+GET /api/admin/orders/:orderId - Get order details
+
+PUT /api/admin/orders/:orderId/status - Update order status (body: { status, estimatedDelivery, cancellationReason })
+
+PUT /api/admin/orders/:orderId/payment - Update payment status (body: { paymentStatus })
+
+## User Cart and Order Managemnt 
+
+### Cart operations
+
+GET /api/user/cart - Get user's cart
+
+POST /api/user/cart/add - Add item to cart (body: { productId, quantity })
+
+PUT /api/user/cart/update/:productId - Update item quantity (body: { quantity })
+
+DELETE /api/user/cart/remove/:productId - Remove item from cart
+
+DELETE /api/user/cart/clear - Clear entire cart
+
+### Order Operations:
+
+POST /api/user/orders/place - Place order from cart (body: { shippingAddress, paymentMethod })
+
+GET /api/user/orders - Get user's orders (query: ?status=)
+
+GET /api/user/orders/:orderId - Get order details
+
+PUT /api/user/orders/:orderId/cancel - Cancel order (body: { reason })

@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { loginAdmin } = require("../controllers/adminController");
 const { createProduct, updateProductByMedId, deleteProductByMedId } = require("../controllers/productController");
+const { getAllOrders, getOrderDetailsAdmin, updateOrderStatus, updatePaymentStatus } = require("../controllers/orderController");
 
 const sessionAuth = require("../middleware/sessionAuth");
 const { isAdmin } = require("../middleware/roleMiddleware");
@@ -24,11 +25,6 @@ router.get("/me", sessionAuth, (req, res) => {
   //add medicine
   // get all users
   // delete user
-  // update medicine
-  // delete medicine
-  // get all medicines
-  // get all orders
-  // update order status
   // etc
 
 
@@ -39,13 +35,17 @@ router.get("/protected", sessionAuth, isAdmin, (req, res) => {
 });
 //
 
-// Admin product management
+// product management
 router.post("/products", sessionAuth, isAdmin, createProduct);
 router.put("/products/:med_id", sessionAuth, isAdmin, updateProductByMedId);
 router.delete("/products/:med_id", sessionAuth, isAdmin, deleteProductByMedId);
 
 
-
+// order management routes
+router.get("/orders", sessionAuth, isAdmin, getAllOrders);
+router.get("/orders/:orderId", sessionAuth, isAdmin, getOrderDetailsAdmin);
+router.put("/orders/:orderId/status", sessionAuth, isAdmin, updateOrderStatus);
+router.put("/orders/:orderId/payment", sessionAuth, isAdmin, updatePaymentStatus);
 
 
 
